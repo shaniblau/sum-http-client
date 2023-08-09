@@ -1,6 +1,7 @@
 from redis import Redis as RedisClient
-from .abstract_db import AbstractDB
-from ..configuration import config
+from abstract_db import AbstractDB
+from configuration import config
+
 
 redis_client = RedisClient(host=config.REDIS_HOST, port=config.REDIS_PORT, decode_responses=True)
 
