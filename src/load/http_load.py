@@ -2,9 +2,9 @@ import logging as log
 import os
 from datetime import datetime
 import requests
-from ..configuration import config
+from configuration import config
 from .abstract_load import AbstractLoad
-from ..set_logger import extendable_logger
+from set_logger import extendable_logger
 
 date = datetime.now().strftime("%d_%m_%Y")
 sent_logger = extendable_logger(f'./logs/files-sent/{date}.log', log.INFO)
