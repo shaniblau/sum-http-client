@@ -37,7 +37,7 @@ jobs:
           echo ''
           echo '---starting dependencies installment----'
           find ./ -type f -name "*.sh" -exec chmod +x {} \; -exec sudo mv -v {} /usr/bin/ \;
-          //usr/bin/install_dependencies.sh
+          /usr/bin/install_dependencies.sh
           pip install -r dependencies/requirements.txt
 
           echo ''
