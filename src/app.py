@@ -83,3 +83,4 @@ def handle_file(half_file_name, whole_file_name):
             Redis.load(half_file_name, whole_file_name)
     else:
         Redis.load(half_file_name, whole_file_name)
+        print('redis load')
