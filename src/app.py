@@ -37,7 +37,7 @@ def run():
     observer = Observer()
     watchdog_queue = Queue()
     handle_existing_files(watchdog_queue)
-    worker = Process(target=process_queue, args=(watchdog_queue,), daemon=True)
+    worker = Thread(target=process_queue, args=(watchdog_queue,), daemon=True)
     worker.start()
     event_handler = Handler(watchdog_queue)
     observer.schedule(event_handler, config.IMAGES_DIR_PATH)
