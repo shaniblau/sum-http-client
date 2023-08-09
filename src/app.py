@@ -24,11 +24,11 @@ def run():
     handle_existing_files(watchdog_queue)
     with Pool() as pool:
         pass
-    worker = Process(target=start_multi_processing(watchdog_queue), args=(watchdog_queue,), daemon=True)
-    worker.start()
     event_handler = Handler(watchdog_queue)
     observer.schedule(event_handler, config.IMAGES_DIR_PATH)
     observer.start()
+    worker = Process(target=start_multi_processing(watchdog_queue), args=(watchdog_queue,), daemon=True)
+    worker.start()
     try:
         while True:
             time.sleep(1)
@@ -53,11 +53,13 @@ def start_multi_processing(q):
 
 
 def process_queue(q):
+    print("start")
     if not q.empty():
-        event = q.pop()
+        print("not empty")
+        event = q.get()
         arrived_logger.info(f'the file {event.src_path} has been received')
-        half_file_name: str = event.src_path.split("/")[-1]
-        if "_a" != half_file_name.split('.')[:-1] and "_b" != half_file_name.split('.')[:-1]:
+        half_file_name: str = event.src_path.split("/")[-1].split('.')
+        if "_a" != half_file_name[0][-2:] and "_b" != half_file_name[0][-2:]:
             error_logger.error(f'the file {half_file_name} name is not in the requested format')
         else:
             whole_file_name = half_file_name.split("_")[0]
@@ -83,4 +85,3 @@ def handle_file(half_file_name, whole_file_name):
             Redis.load(half_file_name, whole_file_name)
     else:
         Redis.load(half_file_name, whole_file_name)
-        print('redis load')
