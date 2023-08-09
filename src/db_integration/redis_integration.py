@@ -1,5 +1,5 @@
 from redis import Redis as RedisClient
-from abstract_db import AbstractDB
+from .abstract_db import AbstractDB
 from configuration import config
 
 
