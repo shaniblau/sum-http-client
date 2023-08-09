@@ -6,6 +6,8 @@ from queue import Queue
 
 from multiprocessing import Process
 from multiprocessing.pool import Pool
+from threading import Thread
+
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileClosedEvent
 
@@ -24,11 +26,11 @@ def run():
     handle_existing_files(watchdog_queue)
     with Pool() as pool:
         pass
+    worker = Thread(target=start_multi_processing(watchdog_queue), args=(watchdog_queue,), daemon=True)
+    worker.start()
     event_handler = Handler(watchdog_queue)
     observer.schedule(event_handler, config.IMAGES_DIR_PATH)
     observer.start()
-    worker = Process(target=start_multi_processing(watchdog_queue), args=(watchdog_queue,), daemon=True)
-    worker.start()
     try:
         while True:
             time.sleep(1)
@@ -53,9 +55,7 @@ def start_multi_processing(q):
 
 
 def process_queue(q):
-    print("start")
     if not q.empty():
-        print("not empty")
         event = q.get()
         arrived_logger.info(f'the file {event.src_path} has been received')
         half_file_name: str = event.src_path.split("/")[-1].split('.')
