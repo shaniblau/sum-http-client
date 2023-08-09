@@ -24,6 +24,7 @@ jobs:
         run: |
           sshpass -p 'Password123!' ssh -o StrictHostKeyChecking=no shani@20.234.206.76 <<EOF
           
+          echo ''
           echo '---starting update app code---'
           if [ -d sum-http-client ]; then 
               cd sum-http-client
@@ -33,20 +34,20 @@ jobs:
               cd sum-http-client
           fi
           
-          
+          echo ''
           echo '---starting dependencies installment----'
           find ./ -type f -name "*.sh" -exec chmod +x {} \; -exec sudo mv -v {} /usr/bin/ \;
           ./install_dependencies
           pip install -r dependencies/requirements.txt
 
-          
-          echo '---starting all services---'
+          echo ''
+          echo '----starting all services----'
           find ./deployment/ -type f -name "*.service" -exec sudo mv -v {} /etc/systemd/system/ \;
           sudo systemctl enable http_client
           sudo systemctl restart http_client
 
-          
-           echo 'starting crontabs'
+          echo ''
+          echo '----starting crontabs----'
           (crontab -l ; echo "* * * * * expire_files.sh /home/shani/images/") | crontab -
 
           EOF
