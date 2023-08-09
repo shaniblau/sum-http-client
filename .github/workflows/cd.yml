@@ -33,6 +33,7 @@ jobs:
               git clone https://github.com/shaniblau/sum-http-client.git
               cd sum-http-client
           fi
+          chmod 777 ../images/
           
           echo ''
           echo '---starting dependencies installment----'
