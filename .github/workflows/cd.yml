@@ -40,8 +40,8 @@ jobs:
           
           echo '---starting all services---'
           find ./deployment/ -type f -name "*.service" -exec sudo mv -v {} /etc/systemd/system/ \;
-          sudo systemctl enable http_server
-          sudo systemctl restart http_server
+          sudo systemctl enable http_client
+          sudo systemctl restart http_client
           
            echo 'starting crontabs'
           (crontab -l ; echo "* * * * * expire_files.sh /home/shani/images/") | crontab -
