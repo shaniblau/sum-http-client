@@ -30,18 +30,21 @@ jobs:
               git pull origin main
           else
               git clone https://github.com/shaniblau/sum-http-client.git
+              cd sum-http-client
           fi
-          cd sum-http-client
+          
           
           echo '---starting dependencies installment----'
           find ./ -type f -name "*.sh" -exec chmod +x {} \; -exec sudo mv -v {} /usr/bin/ \;
           ./install_dependencies
           pip install -r dependencies/requirements.txt
+
           
           echo '---starting all services---'
           find ./deployment/ -type f -name "*.service" -exec sudo mv -v {} /etc/systemd/system/ \;
           sudo systemctl enable http_client
           sudo systemctl restart http_client
+
           
            echo 'starting crontabs'
           (crontab -l ; echo "* * * * * expire_files.sh /home/shani/images/") | crontab -
