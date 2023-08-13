@@ -1,4 +1,5 @@
 import pytest
+import requests
 
 from db_integration import Redis, redis_client
 from load import HTTPLoad
@@ -20,5 +21,5 @@ def http_load_fixture():
 
 
 @pytest.fixture
-def mock_requests_fixture(mocker):
-    return mocker.patch('requests.post')
+def mock_requests(mocker):
+    return mocker.patch.object(requests, 'post')
