@@ -18,7 +18,7 @@ from db_integration import Redis
 from set_logger import extendable_logger
 
 date = datetime.now().strftime("%d_%m_%Y")
-arrived_logger = extendable_logger(f'../logs/files-arrived/{date}.log', log.INFO)
+arrived_logger = extendable_logger(f'{config.LOGS_DIR}/files-arrived/{date}.log', log.INFO)
 
 
 def run():
