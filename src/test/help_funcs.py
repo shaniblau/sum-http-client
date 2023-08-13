@@ -18,8 +18,8 @@ def create_files():
         file.write(b'b')
 
 
-def redis_cleanup(whole_file_name):
-    pass
+def redis_cleanup(redis_client_fixture, key):
+    redis_client_fixture.delete(key)
 
 
 def files_cleanup():
