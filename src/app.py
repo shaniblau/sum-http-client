@@ -1,6 +1,4 @@
 import logging as log
-import queue
-from multiprocessing import Queue
 import os
 import time
 from datetime import datetime
@@ -16,13 +14,11 @@ from set_logger import extendable_logger
 
 date = datetime.now().strftime("%d_%m_%Y")
 arrived_logger = extendable_logger(f'{config.LOGS_DIR}/files-arrived/{date}.log', log.INFO)
-
 pool = Pool()
 
 
 def run():
     observer = Observer()
-    watchdog_queue = Queue()
     handle_existing_files()
     event_handler = Handler()
     observer.schedule(event_handler, config.IMAGES_DIR_PATH)
