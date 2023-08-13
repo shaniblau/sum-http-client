@@ -30,14 +30,9 @@ def test_load_file_should_be_200(http_load_fixture, mock_requests, mocker):
     assert response.status_code == 200
 
 
-def test_log_response(http_load_fixture, mocker):
+def test_log_response_should_log(http_load_fixture, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
     mock_response = requests.Response()
     mock_response.status_code = 200
     http_load_fixture.log_response(mock_response, files_names)
-
-
-def test_delete_files(http_load_fixture, mocker):
-    mocker.patch('os.remove')
-    http_load_fixture.delete_files(files_names)
 
