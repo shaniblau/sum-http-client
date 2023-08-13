@@ -24,12 +24,14 @@ def test_create_files(http_load_fixture, mocker):
     assert expected.__str__() == result.__str__()
 
 
-def test_load_file(http_load_fixture, mock_requests, mocker):
-    mocker.patch('load.http_load.config.LOGS_DIR', './logs')
-    mock_response = mock_requests()
+def test_load_files_success(http_load_fixture, mock_requests_post):
+    mock_response = mock_requests_post.return_value
     mock_response.status_code = 200
-    response = http_load_fixture.load_files(files=[])
+    files = []
+    response = http_load_fixture.load_files(files)
     assert response.status_code == 200
+    mock_requests_post.assert_called_once()
+
 #
 #
 # def test_log_response(http_load_fixture):

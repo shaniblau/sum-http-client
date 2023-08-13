@@ -17,3 +17,8 @@ def redis_client_fixture():
 @pytest.fixture
 def http_load_fixture():
     return HTTPLoad
+
+
+@pytest.fixture
+def mock_requests_fixture(mocker):
+    return mocker.patch('requests.post')
