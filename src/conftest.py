@@ -57,14 +57,14 @@ class MockPool:
 
 @pytest.fixture
 def mock_observer(mocker):
-    return mocker.patch('your_module.Observer', return_value=MockObserver())
+    return mocker.patch('app.Observer', return_value=MockObserver())
 
 
 @pytest.fixture
 def mock_pool(mocker):
-    return mocker.patch('your_module.pool', MockPool())
+    return mocker.patch('app.pool', MockPool())
 
 
 @pytest.fixture
 def mock_event(mocker):
-    return mocker.patch('your_module.FileClosedEvent', return_value=MockFileClosedEvent('/path/to/test_file.txt'))
+    return mocker.patch('app.FileClosedEvent', return_value=MockFileClosedEvent('/path/to/test_file.txt'))
