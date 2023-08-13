@@ -24,11 +24,11 @@ def test_create_files(http_load_fixture, mocker):
     assert expected.__str__() == result.__str__()
 
 
-def test_upload_file(http_load_fixture, mock_requests, mocker):
+def test_load_file(http_load_fixture, mock_requests, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
     mock_response = mock_requests()
     mock_response.status_code = 200
-    response = http_load_fixture.upload_files(files=[])
+    response = http_load_fixture.load_files(files=[])
     assert response.status_code == 200
 #
 #
