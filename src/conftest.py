@@ -1,6 +1,7 @@
 import pytest
 import requests
 
+import app
 from db_integration import Redis, redis_client
 from load import HTTPLoad
 
@@ -18,6 +19,11 @@ def redis_client_fixture():
 @pytest.fixture
 def http_load_fixture():
     return HTTPLoad
+
+
+@pytest.fixture
+def app_fixture():
+    return app
 
 
 @pytest.fixture
