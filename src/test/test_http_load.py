@@ -9,6 +9,7 @@ files_names = ['file_a', 'file_b']
 def test_execute(http_load_fixture, mock_requests, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
     mock_create_files = mocker.patch('load.http_load.HTTPLoad.create_files')
+    create_files()
     files = []
     for name in files_names:
         with open(name, 'rb') as file:
