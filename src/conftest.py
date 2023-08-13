@@ -15,6 +15,5 @@ def redis_client_fixture():
 
 
 @pytest.fixture
-def http_load_fixture(mocker):
-    mocker.patch('http_load.config.LOGS_DIR', './logs')
+def http_load_fixture():
     return HTTPLoad
