@@ -13,8 +13,11 @@ def test_create_files(http_load_fixture, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
     mocker.patch('load.http_load.config.IMAGES_DIR_PATH', './')
     create_files()
-    expected = [('files', ('file_a', open('./file_a', "rb"), "image/jpg")),
-                ('files', ('file_b', open('./file_b', "rb"), "image/jpg"))]
+    expected = []
+    with open('./file_a', 'rb') as file:
+        expected.append(("files", ('file_a', file.read(), "image/jpg")))
+    with open('./file_b', 'rb') as file:
+        expected.append(("files", ('file_b', file.read(), "image/jpg")))
     with patch('load.http_load.open',
                side_effect=lambda file, mode: builtins.open(os.path.abspath(file), mode)) as mock_file:
         result = http_load_fixture.create_files(files_names)
