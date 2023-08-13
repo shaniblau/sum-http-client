@@ -1,7 +1,6 @@
 import builtins
 import os
 from unittest.mock import patch
-
 import requests
 
 from help_funcs import create_files
@@ -36,9 +35,9 @@ def test_log_response(http_load_fixture, mocker):
     mock_response = requests.Response()
     mock_response.status_code = 200
     http_load_fixture.log_response(mock_response, files_names)
-#
-#
-# def test_delete_files(http_load_fixture, mocker):
-#     mocker.patch('os.remove')
-#     http_load_fixture.delete_files(files_names)
-#
+
+
+def test_delete_files(http_load_fixture, mocker):
+    mocker.patch('os.remove')
+    http_load_fixture.delete_files(files_names)
+
