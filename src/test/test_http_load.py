@@ -19,10 +19,10 @@ def test_execute(http_load_fixture, mock_requests, mocker):
     mock_log_response = mocker.patch('load.http_load.HTTPLoad.log_response')
     mock_delete_files = mocker.patch('load.http_load.HTTPLoad.delete_files')
     http_load_fixture.execute(files_names)
-    mock_create_files.assert_called_once()
+    mock_create_files.assert_called_once_with(files_names)
     mock_load_files.assert_called_once()
     mock_log_response.assert_called_once()
-    mock_delete_files.assert_called_once()
+    mock_delete_files.assert_called_once_with(files_names)
 
 
 def test_create_files_should_be_list_of_upload_file_objects(http_load_fixture, mocker):
