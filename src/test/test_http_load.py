@@ -9,7 +9,7 @@ from help_funcs import create_files
 files_names = ['file_a', 'file_b']
 
 
-def test_create_files(http_load_fixture, mocker):
+def test_create_files_should_be_list_of_upload_file_objects(http_load_fixture, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
     mocker.patch('load.http_load.config.IMAGES_DIR_PATH', './')
     create_files()
@@ -24,18 +24,19 @@ def test_create_files(http_load_fixture, mocker):
     assert expected.__str__() == result.__str__()
 
 
-def test_load_file(http_load_fixture, mock_requests, mocker):
+def test_load_file_should_be_200(http_load_fixture, mock_requests, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
     mock_response = mock_requests()
     mock_response.status_code = 200
     response = http_load_fixture.load_files(files=[])
     assert response.status_code == 200
-#
-#
-# def test_log_response(http_load_fixture):
-#     mock_response = requests.Response()
-#     mock_response.status_code = 200
-#     http_load_fixture.log_response(mock_response, files_names)
+
+
+def test_log_response(http_load_fixture, mocker):
+    mocker.patch('load.http_load.config.LOGS_DIR', './logs')
+    mock_response = requests.Response()
+    mock_response.status_code = 200
+    http_load_fixture.log_response(mock_response, files_names)
 #
 #
 # def test_delete_files(http_load_fixture, mocker):
