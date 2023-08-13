@@ -22,13 +22,14 @@ def test_create_files(http_load_fixture, mocker):
                side_effect=lambda file, mode: builtins.open(os.path.abspath(file), mode)) as mock_file:
         result = http_load_fixture.create_files(files_names)
     assert expected.__str__() == result.__str__()
-#
-#
-# def test_upload_file(http_load_fixture, mock_requests):
-#     mock_response = mock_requests()
-#     mock_response.status_code = 200
-#     response = http_load_fixture.upload_files(files=[])
-#     assert response.status_code == 200
+
+
+def test_upload_file(http_load_fixture, mock_requests, mocker):
+    mocker.patch('load.http_load.config.LOGS_DIR', './logs')
+    mock_response = mock_requests()
+    mock_response.status_code = 200
+    response = http_load_fixture.upload_files(files=[])
+    assert response.status_code == 200
 #
 #
 # def test_log_response(http_load_fixture):
