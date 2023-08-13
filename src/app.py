@@ -1,12 +1,10 @@
 import logging as log
+import queue
 from multiprocessing import Queue
 import os
 import time
 from datetime import datetime
-from multiprocessing import Process
-
 from multiprocessing.pool import Pool
-from threading import Thread
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileClosedEvent
@@ -47,17 +45,22 @@ def handle_existing_files(watchdog_queue):
 def process_queue(q):
     while True:
         try:
-            if not q.empty():
-                event = q.get()
-                arrived_logger.info(f'the file {event.src_path} has been received')
-                file_name: str = event.src_path.split("/")[-1]
-                file_full_name = file_name.split("_")[0].split('.')[0]
-                if "_a" == file_name[-2:] and "_b" == file_name[-2:]:
-                    error_logger.error(f'the file {file_name} name is not in the requested format')
-                else:
-                    handle_file(file_name, file_full_name)
-        except Exception:
-            error_logger.error(f'the files were not sent do to: {Exception.__str__}')
+            event = q.get()
+            process_event(event)
+        except queue.Empty:
+            continue
+        except Exception as e:
+            error_logger.error(f'the files were not sent do to: {e}')
+
+
+def process_event(event):
+    arrived_logger.info(f'the file {event.src_path} has been received')
+    file_name: str = event.src_path.split("/")[-1]
+    file_full_name = file_name.split("_")[0].split('.')[0]
+    if "_a" == file_name[-2:] and "_b" == file_name[-2:]:
+        error_logger.error(f'the file {file_name} name is not in the requested format')
+    else:
+        handle_file(file_name, file_full_name)
 
 
 def handle_file(file_name, file_full_name):
