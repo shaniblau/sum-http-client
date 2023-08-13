@@ -10,7 +10,7 @@ files_names = ['file_a', 'file_b']
 
 
 def test_create_files(http_load_fixture, mocker):
-    mocker.patch('http_load.config.LOGS_DIR', './logs')
+    mocker.patch('load.http_load.config.LOGS_DIR', './logs')
     create_files()
     expected = [('files', ('file_a', open('./file_a', "rb"), "image/jpg")),
                 ('files', ('file_b', open('./file_b', "rb"), "image/jpg"))]
