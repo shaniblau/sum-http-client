@@ -22,49 +22,11 @@ def http_load_fixture():
 
 
 @pytest.fixture
-def app_fixture():
+def app_fixture(mocker):
+    mocker.patch('app.config.LOGS_DIR', './')
     return app
 
 
 @pytest.fixture
 def mock_requests(mocker):
     return mocker.patch.object(requests, 'post')
-
-
-class MockObserver:
-    def schedule(self, handler, path):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass
-
-    def join(self):
-        pass
-
-
-class MockFileClosedEvent:
-    def __init__(self, src_path):
-        self.src_path = src_path
-
-
-class MockPool:
-    def apply_async(self, func, args):
-        pass
-
-
-@pytest.fixture
-def mock_observer(mocker):
-    return mocker.patch('app.Observer', return_value=MockObserver())
-
-
-@pytest.fixture
-def mock_pool(mocker):
-    return mocker.patch('app.pool', MockPool())
-
-
-@pytest.fixture
-def mock_event(mocker):
-    return mocker.patch('app.FileClosedEvent', return_value=MockFileClosedEvent('/path/to/test_file.txt'))

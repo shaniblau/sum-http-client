@@ -37,23 +37,30 @@ def handle_existing_files():
     for file in os.listdir(config.IMAGES_DIR_PATH):
         file_path = os.path.join(config.IMAGES_DIR_PATH, file)
         event = FileClosedEvent(file_path)
-        pool.apply_async(func=process_event, args=(event,))
+        pool.apply_async(func=process_file, args=(event.src_path,))
 
 
-def process_event(event):
+def process_file(file_path):
     try:
-        arrived_logger.info(f'the file {event.src_path} has been received')
-        file_name: str = event.src_path.split("/")[-1]
-        file_full_name = file_name.split("_")[0].split('.')[0]
-        if "_a" == file_name[-2:] and "_b" == file_name[-2:]:
+        arrived_logger.info(f'the file {file_path} has been received')
+        file_name = extract_half_file_name(file_path)
+        if "_a" != file_name[-2:] and "_b" != file_name[-2:]:
             error_logger.error(f'the file {file_name} name is not in the requested format')
         else:
-            handle_file(file_name, file_full_name)
+            whole_file_name = file_name.split('_')[0]
+            handle_half(file_name, whole_file_name)
     except Exception as e:
         error_logger.error(f'the files were not sent do to: {e}')
 
 
-def handle_file(file_name, file_full_name):
+def extract_half_file_name(file_name):
+    if '.' in file_name:
+        return file_name.split("/")[-1].split('.')[0]
+    else:
+        return file_name.split("/")[0]
+
+
+def handle_half(file_name, file_full_name):
     if Redis.check_existence(file_full_name):
         first_half = Redis.extract(file_full_name)
         second_half = file_name
@@ -68,4 +75,4 @@ def handle_file(file_name, file_full_name):
 
 class Handler(FileSystemEventHandler):
     def on_closed(self, event):
-        pool.apply_async(func=process_event, args=(event,))
+        pool.apply_async(func=process_file, args=(event.src_path,))
