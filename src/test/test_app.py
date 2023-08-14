@@ -29,8 +29,8 @@ def test_process_event(app_fixture, mocker):
     mocker.patch('app.HTTPLoad.execute')
     mocker.patch('app.Redis.load')
     app_fixture.process_event(mock_event)
-    assert app_fixture.Redis.check_existence.called
-    assert app_fixture.Redis.extract.called
+    app_fixture.Redis.check_existence.assert_called()
+    app_fixture.Redis.extract.assert_called()
     app_fixture.HTTPLoad.execute.assert_called()
     app_fixture.Redis.load.assert_called()
 
