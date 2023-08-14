@@ -9,7 +9,7 @@ def test_process_file_invalid_file_name_should_log_error(app_fixture, caplog):
 
 
 def test_process_file_invalid_parameter_should_log_error(app_fixture, caplog):
-    expected = 'the files were not sent do to: argument of type 'int' is not iterable'
+    expected = "the files were not sent do to: argument of type 'int' is not iterable"
     app_fixture.process_file(5)
     error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.ERROR]
     assert expected in error_messages
