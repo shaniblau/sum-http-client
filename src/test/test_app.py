@@ -4,9 +4,8 @@ import logging
 def test_process_file_invalid_file_name_should_log_error(app_fixture, caplog):
     expected = 'the file file_c name is not in the requested format'
     app_fixture.process_file('/file_c.txt')
-    error_messages = [record for record in caplog.record_tuples if record[1] == logging.ERROR]
-    error_message_texts = [record[2] for record in error_messages]
-    assert expected in error_message_texts
+    error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.ERROR]
+    assert expected in error_messages
 
 
 def test_process_file_invalid_parameter_should_log_error(app_fixture):
