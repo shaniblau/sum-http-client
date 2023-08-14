@@ -1,7 +1,5 @@
 import logging
 
-import app
-
 
 def test_process_file_invalid_file_name_should_log_error(app_fixture, caplog):
     expected = 'the file file_c name is not in the requested format'
@@ -34,10 +32,8 @@ def test_handle_half_new_file_should_call_redis_load(app_fixture, mocker):
 
 
 def test_handle_half_existing_file_should_call_http_load_execute(app_fixture, mocker):
-    mock_load = mocker.patch('app.Redis.load')
-    mock_load.return_value = True
-    mock_extract = mocker.patch('app.Redis.load')
-    mock_extract.return_value = 'file_b'
+    mocker.patch('app.Redis.load', return_value=True)
+    mocker.patch('app.Redis.extract', return_value='file_b')
     mock_execute = mocker.patch('app.HTTPLoad.execute')
     app_fixture.handle_half('file_a.txt', 'file')
     mock_execute.assert_called_once_with(['file_b', 'file_a'])
