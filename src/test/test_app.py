@@ -39,4 +39,4 @@ def test_handler_on_closed(mocker, mock_pool, mock_event):
     mocker.patch('app.pool', mock_pool)
     handler = Handler()
     handler.on_closed(mock_event)
-    mock_pool.apply_async.assert_called()
+    mock_pool.assert_called()
