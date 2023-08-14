@@ -20,7 +20,7 @@ def test_execute(http_load_fixture, mock_requests, mocker):
     http_load_fixture.execute(files_names)
     mock_create_files.assert_called_once_with(files_names)
     mock_load_files.assert_called_once_with(files)
-    mock_log_response.assert_called_once(files_names, requests.Response)
+    mock_log_response.assert_called_once_with(files_names, requests.Response)
     mock_delete_files.assert_called_once_with(files_names)
 
 
