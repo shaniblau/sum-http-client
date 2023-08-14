@@ -32,7 +32,7 @@ def test_handle_half_new_file_should_call_redis_load(app_fixture, mocker):
 
 
 def test_handle_half_existing_file_should_call_http_load_execute(app_fixture, mocker):
-    mocker.patch('app.Redis.load', return_value=True)
+    mocker.patch('app.Redis.check_existence', return_value=True)
     mocker.patch('app.Redis.extract', return_value='file_b')
     mock_execute = mocker.patch('app.HTTPLoad.execute')
     app_fixture.handle_half('file_a.txt', 'file')
