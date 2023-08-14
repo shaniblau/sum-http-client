@@ -17,7 +17,7 @@ def test_process_file_invalid_parameter_should_log_error(app_fixture, caplog):
 
 def test_process_file_should_call_handle_half(app_fixture, mocker):
     mock_handle_half = mocker.patch('app.handle_half')
-    app_fixture.process_file('/files/file_a/txt')
+    app_fixture.process_file('/files/file_a.txt')
     mock_handle_half.assert_called_once()
 
 
