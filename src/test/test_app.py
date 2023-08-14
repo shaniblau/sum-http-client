@@ -8,8 +8,11 @@ def test_process_file_invalid_file_name_should_log_error(app_fixture, caplog):
     assert expected in error_messages
 
 
-def test_process_file_invalid_parameter_should_log_error(app_fixture):
-    pass
+def test_process_file_invalid_parameter_should_log_error(app_fixture, caplog):
+    expected = 'the files were not sent do to: {e}'
+    app_fixture.process_file(5)
+    error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.ERROR]
+    assert expected in error_messages
 
 
 def test_process_file_should_call_handle_half(app_fixture):
