@@ -39,17 +39,17 @@ def test_create_files_should_be_list_of_upload_file_objects(http_load_fixture, m
     assert expected.__str__() == result.__str__()
 
 
-def test_load_file_should_be_200(http_load_fixture, mock_requests, mocker):
+def test_load_file_should_be_200(http_load_fixture,mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
-    mock_response = mock_requests()
+    mock_response = mocker.Mock()
     mock_response.status_code = 200
     response = http_load_fixture.load_files(files=[])
     assert response.status_code == 200
 
 
-def test_load_file_should_not_be_200(http_load_fixture, mock_requests, mocker):
+def test_load_file_wrong_url_should_not_be_200(http_load_fixture, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
-    mock_response = mock_requests()
-    mock_response.status_code = 400
+    mock_response = mocker.Mock()
+    mock_response.status_code = 404
     response = http_load_fixture.load_files(files=[])
     assert response.status_code != 200
