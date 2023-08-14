@@ -60,17 +60,17 @@ def extract_half_file_name(file_name):
         return file_name.split("/")[0]
 
 
-def handle_half(file_name, file_full_name):
-    if Redis.check_existence(file_full_name):
-        first_half = Redis.extract(file_full_name)
+def handle_half(file_name, whole_file_name):
+    if Redis.check_existence(whole_file_name):
+        first_half = Redis.extract(whole_file_name)
         second_half = file_name
         if second_half != first_half:
             HTTPLoad.execute([first_half, second_half])
         else:
             error_logger.warning(f'the file {file_name} has been sent twice')
-            Redis.load(file_name, file_full_name)
+            Redis.load(file_name, whole_file_name)
     else:
-        Redis.load(file_name, file_full_name)
+        Redis.load(file_name, whole_file_name)
 
 
 class Handler(FileSystemEventHandler):

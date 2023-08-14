@@ -25,8 +25,10 @@ def test_handle_half_identical_files_names(app_fixture):
     pass
 
 
-def test_handle_half_new_file_should_call_redis_load(app_fixture):
-    pass
+def test_handle_half_new_file_should_call_redis_load(app_fixture, mocker):
+    mock_load = mocker.patch('app.Redis.load')
+    app_fixture.handle_half('file_a.txt', 'file')
+    mock_load.assert_called_once()
 
 
 def test_handle_half_existing_file_should_call_http_load_execute(app_fixture):
