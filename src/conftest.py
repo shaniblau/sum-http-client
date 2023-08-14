@@ -25,3 +25,8 @@ def http_load_fixture():
 def app_fixture(mocker):
     mocker.patch('app.config.LOGS_DIR', './')
     return app
+
+
+@pytest.fixture
+def mock_requests(mocker):
+    return mocker.patch.object(requests, 'post')
