@@ -34,3 +34,9 @@ def test_process_event(app_fixture, mocker):
     app_fixture.HTTPLoad.execute.assert_called()
     app_fixture.Redis.load.assert_called()
 
+
+def test_handler_on_closed(mocker, mock_pool, mock_event):
+    mocker.patch('your_module.pool', mock_pool)
+    handler = Handler()
+    handler.on_closed(mock_event)
+    mock_pool.apply_async.assert_called()
