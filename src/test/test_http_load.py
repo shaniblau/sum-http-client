@@ -8,19 +8,19 @@ files_names = ['file_a', 'file_b']
 
 def test_execute(http_load_fixture, mock_requests, mocker):
     mocker.patch('load.http_load.config.LOGS_DIR', './logs')
-    mock_create_files = mocker.patch('load.http_load.HTTPLoad.create_files')
+
     create_files()
     files = []
     for name in files_names:
         with open(name, 'rb') as file:
             files.append(("files", (name, file.read(), "image/jpg")))
-    mock_create_files.return_value = files
+    mock_create_files = mocker.patch('load.http_load.HTTPLoad.create_files', return_value=files)
     mock_load_files = mocker.patch('load.http_load.HTTPLoad.load_files')
     mock_log_response = mocker.patch('load.http_load.HTTPLoad.log_response')
     mock_delete_files = mocker.patch('load.http_load.HTTPLoad.delete_files')
     http_load_fixture.execute(files_names)
     mock_create_files.assert_called_once_with(files_names)
-    mock_load_files.assert_called_once()
+    mock_load_files.assert_called_once_with(files)
     mock_log_response.assert_called_once()
     mock_delete_files.assert_called_once_with(files_names)
 
@@ -45,11 +45,3 @@ def test_load_file_should_be_200(http_load_fixture, mock_requests, mocker):
     mock_response.status_code = 200
     response = http_load_fixture.load_files(files=[])
     assert response.status_code == 200
-
-
-def test_load_file_should_not_be_200(http_load_fixture, mock_requests, mocker):
-    mocker.patch('load.http_load.config.LOGS_DIR', './logs')
-    mock_response = mock_requests()
-    mock_response.status_code = 400
-    response = http_load_fixture.load_files(files=[])
-    assert response.status_code != 2
