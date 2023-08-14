@@ -24,10 +24,10 @@ def test_run_should_call_handle_existing_files_and_observer(app_fixture, mocker)
 
 def test_process_event(app_fixture, mocker):
     mock_event = mocker.Mock()
-    mocker.patch('your_module.Redis.check_existence', return_value=True)
-    mocker.patch('your_module.Redis.extract', return_value='first_half')
-    mocker.patch('your_module.HTTPLoad.execute')
-    mocker.patch('your_module.Redis.load')
+    mocker.patch('app.Redis.check_existence', return_value=True)
+    mocker.patch('app.Redis.extract', return_value='first_half')
+    mocker.patch('app.HTTPLoad.execute')
+    mocker.patch('app.Redis.load')
     app_fixture.process_event(mock_event)
     assert app_fixture.Redis.check_existence.called
     assert app_fixture.Redis.extract.called
@@ -36,7 +36,7 @@ def test_process_event(app_fixture, mocker):
 
 
 def test_handler_on_closed(mocker, mock_pool, mock_event):
-    mocker.patch('your_module.pool', mock_pool)
+    mocker.patch('app.pool', mock_pool)
     handler = Handler()
     handler.on_closed(mock_event)
     mock_pool.apply_async.assert_called()
