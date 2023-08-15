@@ -36,14 +36,6 @@ jobs:
           chmod 777 ../images/
           
           echo ''
-          echo '---creating logs dir tree---'
-          if [ ! -d logs ]; then 
-              mkdir logs
-              mkdir logs/files-arrived
-              mkdir logs/files-sent
-          fi
-          
-          echo ''
           echo '---starting dependencies installment----'
           find ./ -type f -name "*.sh" -exec chmod +x {} \; -exec sudo mv -v {} /usr/bin/ \;
           /usr/bin/install_dependencies.sh
