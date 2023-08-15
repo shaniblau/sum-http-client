@@ -14,30 +14,6 @@ from set_logger import extendable_logger
 
 date = datetime.now().strftime("%d_%m_%Y")
 arrived_logger = extendable_logger(f'{config.LOGS_DIR}/files-arrived/{date}.log', log.INFO)
-pool = Pool()
-
-
-def run():
-    observer = Observer()
-    handle_existing_files()
-    event_handler = Handler()
-    observer.schedule(event_handler, config.IMAGES_DIR_PATH)
-    observer.start()
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-        pool.close()
-    pool.join()
-    observer.join()
-
-
-def handle_existing_files():
-    for file in os.listdir(config.IMAGES_DIR_PATH):
-        file_path = os.path.join(config.IMAGES_DIR_PATH, file)
-        event = FileClosedEvent(file_path)
-        pool.apply_async(process_file, (event.src_path,))
 
 
 def process_file(file_path):
@@ -71,8 +47,3 @@ def handle_half(file_name, whole_file_name):
             Redis.load(file_name, whole_file_name)
     else:
         Redis.load(file_name, whole_file_name)
-
-
-class Handler(FileSystemEventHandler):
-    def on_closed(self, event):
-        pool.apply_async(process_file, (event.src_path,))
