@@ -37,7 +37,7 @@ def handle_existing_files():
     for file in os.listdir(config.IMAGES_DIR_PATH):
         file_path = os.path.join(config.IMAGES_DIR_PATH, file)
         event = FileClosedEvent(file_path)
-        pool.apply_async(func=process_file, args=(event.src_path,))
+        pool.apply_async(process_file, (event.src_path,))
 
 
 def process_file(file_path):
@@ -75,4 +75,4 @@ def handle_half(file_name, whole_file_name):
 
 class Handler(FileSystemEventHandler):
     def on_closed(self, event):
-        pool.apply_async(func=process_file, args=(event.src_path,))
+        pool.apply_async(process_file, (event.src_path,))
