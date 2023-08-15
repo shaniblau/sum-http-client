@@ -7,8 +7,8 @@ from .abstract_load import AbstractLoad
 from set_logger import extendable_logger
 
 date = datetime.now().strftime("%d_%m_%Y")
-sent_logger = extendable_logger(f'{config.LOGS_DIR}/files-sent/{date}.log', log.INFO)
-error_logger = extendable_logger(f'{config.LOGS_DIR}/errors.log', log.WARNING)
+sent_logger = extendable_logger('sent', f'{config.LOGS_DIR}/files-sent/{date}.log', log.INFO)
+error_logger = extendable_logger('errors', f'{config.LOGS_DIR}/errors.log', log.WARNING)
 
 
 class HTTPLoad(AbstractLoad):

@@ -1,8 +1,8 @@
 import logging as log
 
 
-def extendable_logger(file_path, level):
-    specified_logger = log.getLogger('app.py')
+def extendable_logger(name, file_path, level):
+    specified_logger = log.getLogger(name)
     specified_logger.setLevel(level)
     handler = log.FileHandler(file_path)
     formatter = log.Formatter('{"logging.level":"%(levelname)s","message":"%(message)s"}')
