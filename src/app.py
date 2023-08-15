@@ -13,8 +13,9 @@ arrived_logger = extendable_logger(f'{config.LOGS_DIR}/files-arrived/{date}.log'
 def process_file(file_path):
     try:
         arrived_logger.info(f'the file {file_path} has been received')
-        file_name = extract_half_file_name(file_path)
-        if "_a" != file_name[-2:] and "_b" != file_name[-2:]:
+        file_name = file_path.split("/")[-1]
+        check_name = extract_half_file_name_(file_name)
+        if "_a" != check_name[-2:] and "_b" != check_name[-2:]:
             error_logger.error(f'the file {file_name} name is not in the requested format')
         else:
             whole_file_name = file_name.split('_')[0]
@@ -23,11 +24,11 @@ def process_file(file_path):
         error_logger.error(f'the files were not sent do to: {e}')
 
 
-def extract_half_file_name(file_name):
+def extract_half_file_name_(file_name):
     if '.' in file_name:
-        return file_name.split("/")[-1].split('.')[0]
+        return file_name.split('.')[0]
     else:
-        return file_name.split("/")[-1]
+        return file_name
 
 
 def handle_half(file_name, whole_file_name):
