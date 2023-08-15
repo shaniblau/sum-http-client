@@ -1,11 +1,5 @@
 import logging as log
-import os
-import time
 from datetime import datetime
-from multiprocessing.pool import Pool
-
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileClosedEvent
 
 from configuration import config
 from load import HTTPLoad, error_logger
