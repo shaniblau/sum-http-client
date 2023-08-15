@@ -27,7 +27,7 @@ def extract_half_file_name(file_name):
     if '.' in file_name:
         return file_name.split("/")[-1].split('.')[0]
     else:
-        return file_name.split("/")[0]
+        return file_name.split("/")[-1]
 
 
 def handle_half(file_name, whole_file_name):
