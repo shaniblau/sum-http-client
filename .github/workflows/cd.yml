@@ -40,6 +40,14 @@ jobs:
           find ./ -type f -name "*.sh" -exec chmod +x {} \; -exec sudo mv -v {} /usr/bin/ \;
           /usr/bin/install_dependencies.sh
           pip install -r dependencies/requirements.txt
+          
+          echo ''
+          echo '----starting filebeat----'
+          wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.1-amd64.deb
+          sudo dpkg -i filebeat-8.8.1-amd64.deb
+          sudo mv -f ./deployment/filebeat.yml /etc/filebeat
+          sudo systemctl enable filebeat
+          sudo systemctl restart filebeat
 
           echo ''
           echo '----starting all services----'

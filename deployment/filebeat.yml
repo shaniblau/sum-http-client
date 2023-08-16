@@ -1,0 +1,106 @@
+# ============================== Filebeat inputs ===============================
+
+filebeat.inputs:
+
+
+- type: filestream
+
+  id: files_arrived_id
+
+  enabled: true
+
+  paths:
+    - /home/shani/sum-http-client/logs/files-arrived/*.log
+
+  fields:
+    type: "files-arrived"
+
+
+- type: filestream
+
+  id: files_sent_id
+
+  enabled: true
+
+  paths:
+    - /home/shani/sum-http-client/logs/files-sent/*.log
+
+  fields:
+    type: "files-sent"
+
+
+- type: filestream
+
+  id: files_client_errors_id
+
+  enabled: true
+
+  paths:
+    - /home/shani/sum-http-client/logs/errors.log
+
+  fields:
+    type: "client-errors"
+
+
+# ============================== Filebeat modules ==============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+
+# ======================= Elasticsearch template setting =======================
+
+setup.template.settings:
+  index.number_of_shards: 1
+  #index.codec: best_compression
+  #_source.enabled: false
+
+
+# =================================== Kibana ===================================
+
+setup.kibana:
+  host: "13.95.0.108:5601"
+
+
+# ================================== Outputs ===================================
+
+# ---------------------------- Elasticsearch Output ----------------------------
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["13.95.0.108:9200"]
+
+  # Protocol - either `http` (default) or `https`.
+  protocol: "https"
+
+  # Authentication credentials - either API key or username/password.
+  username: "elastic"
+  password: "fqjefNz0_E+J1opqjwU_"
+
+  ssl.certificate_authorities: ["/etc/filebeat/http_ca.crt"]
+
+  index: "%{[fields.type]:other}-%{+yyyy.MM.dd}"
+setup.template.name: "%{[fields.type]:other}"
+setup.template.pattern: "%{[fields.type]:other}"
+setup.ilm.enabled: true
+
+
+# ================================= Processors =================================
+processors:
+#  - add_host_metadata:
+  - drop_fields:
+      fields: ["agent", "input", "ecs", "log", "message.keyword"]
+      ignore_missing: true
+  - decode_json_fields:
+      fields: ["message"]
+      process_array: false
+      max_depth: "2"
+      target: ""
+      overwrite_keys: true
+      add_error_key: false
+
