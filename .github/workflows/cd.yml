@@ -43,6 +43,7 @@ jobs:
           
           echo ''
           echo '----starting filebeat----'
+          sudo su
           wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.1-amd64.deb
           sudo dpkg -i filebeat-8.8.1-amd64.deb
           sudo mv -f ./deployment/filebeat.yml /etc/filebeat
