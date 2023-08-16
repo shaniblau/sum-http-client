@@ -54,6 +54,7 @@ jobs:
 
           echo ''
           echo '----starting all services----'
+          exit
           find ./deployment/ -type f -name "*.service" -exec sudo mv -v {} /etc/systemd/system/ \;
           sudo systemctl enable http_client
           sudo systemctl restart http_client
