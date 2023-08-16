@@ -4,7 +4,7 @@ from help_funcs import create_files
 files_names = ['file_a', 'file_b']
 
 
-def test_execute(http_load_fixture, mock_requests, mocker):
+def test_execute_should_call_all_http_load_functions(http_load_fixture, mock_requests, mocker):
     create_files()
     files = []
     for name in files_names:
