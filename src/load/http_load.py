@@ -14,13 +14,13 @@ error_logger = extendable_logger('errors', f'{config.LOGS_DIR}/errors.log', log.
 class HTTPLoad(AbstractLoad):
     @staticmethod
     def execute(files_names):
-        files = HTTPLoad.create_files(files_names)
-        response = HTTPLoad.load_files(files)
-        HTTPLoad.log_response(response, files_names)
-        HTTPLoad.delete_files(files_names)
+        files = HTTPLoad.__create_files(files_names)
+        response = HTTPLoad.__load_files(files)
+        HTTPLoad.__log_response(response, files_names)
+        HTTPLoad.__delete_files(files_names)
 
     @staticmethod
-    def create_files(files_names):
+    def __create_files(files_names):
         files = []
         for name in files_names:
             file_path = os.path.join(config.IMAGES_DIR_PATH, name)
@@ -29,19 +29,19 @@ class HTTPLoad(AbstractLoad):
         return files
 
     @staticmethod
-    def load_files(files):
+    def __load_files(files):
         response = requests.post(config.URL, files=files)
         return response
 
     @staticmethod
-    def log_response(response, files_names):
+    def __log_response(response, files_names):
         if response.status_code == 200:
             sent_logger.info(f'{files_names} sent successfully')
         else:
             error_logger.error(f'{files_names} could not be sent, response status code - {response.status_code}')
 
     @staticmethod
-    def delete_files(files_names):
+    def __delete_files(files_names):
         for name in files_names:
             file_path = os.path.join(config.IMAGES_DIR_PATH, name)
             os.remove(file_path)

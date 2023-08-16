@@ -5,14 +5,16 @@ def test_process_file_invalid_file_name_should_log_error(app_fixture, caplog):
     expected = 'the file file_c.txt name is not in the requested format'
     app_fixture.process_file('/file_c.txt')
     error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.ERROR]
-    assert expected in error_messages
+    assert expected == error_messages[0]
+    assert len(error_messages) == 1
 
 
 def test_process_file_invalid_parameter_should_log_error(app_fixture, caplog):
     expected = "the files were not sent do to: 'int' object has no attribute 'split'"
     app_fixture.process_file(5)
     error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.ERROR]
-    assert expected in error_messages
+    assert expected == error_messages[0]
+    assert len(error_messages) == 1
 
 
 def test_process_file_should_call_handle_half(app_fixture, mocker):
@@ -28,7 +30,8 @@ def test_handle_half_2_identical_files_names(app_fixture, mocker, caplog):
     app_fixture.handle_half('file_a.txt', 'file')
     expected = "the file file_a.txt has been sent twice"
     error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.WARNING]
-    assert expected in error_messages
+    assert expected == error_messages[0]
+    assert len(error_messages) == 1
     mock_load.assert_called_once_with('file_a.txt', 'file')
 
 

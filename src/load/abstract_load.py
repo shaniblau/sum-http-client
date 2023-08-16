@@ -9,5 +9,5 @@ class AbstractLoad(ABC):
 
     @staticmethod
     @abstractmethod
-    def load_files(files):
+    def __load_files(files):
         pass

@@ -3,6 +3,7 @@ Description=http client that sends half files
 
 [Service]
 ExecStart=/usr/bin/python3 /home/shani/sum-http-client/src/main.py
+KillSignal=SIGINT
 ExecStop=/bin/kill -TERM $MAINPID
 WorkingDirectory=/home/shani/sum-http-client/src/
 User=shani
