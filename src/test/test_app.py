@@ -37,13 +37,17 @@ def test_handle_half_2_identical_files_names(app_fixture, mocker, caplog):
 
 def test_handle_half_new_file_should_call_redis_load(app_fixture, mocker):
     mock_load = mocker.patch('app.Redis.load')
+    mock_extract = mocker.patch('app.Redis.extract')
     app_fixture.handle_half('file_a.txt', 'file')
     mock_load.assert_called_once()
+    mock_extract.assert_not_called()
 
 
 def test_handle_half_existing_file_should_call_http_load_execute(app_fixture, mocker):
     mocker.patch('app.Redis.check_existence', return_value=True)
     mocker.patch('app.Redis.extract', return_value='file_b')
+    mock_load = mocker.patch('app.Redis.load')
     mock_execute = mocker.patch('app.HTTPLoad.execute')
     app_fixture.handle_half('file_a.txt', 'file')
     mock_execute.assert_called_once_with(['file_b', 'file_a.txt'])
+    mock_load.assert_not_called()
