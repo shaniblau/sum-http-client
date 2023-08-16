@@ -23,6 +23,7 @@ jobs:
       - name: upload app
         run: |
           sshpass -p 'Password123!' ssh -o StrictHostKeyChecking=no shani@20.234.206.76 <<EOF
+          sudo su
           
           echo ''
           echo '---starting update app code---'
@@ -44,7 +45,6 @@ jobs:
           echo ''
           echo '----starting filebeat----'
           cd ..
-          sudo su
           wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.1-amd64.deb
           sudo dpkg -i filebeat-8.8.1-amd64.deb
           cd sum-http-client
