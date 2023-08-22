@@ -29,7 +29,8 @@ class HTTPLoad(AbstractLoad):
         return files
 
     @staticmethod
-    def __load_files(files):
+    def __load_files(files, files_names):
+        print(f"Transferring file '{files_names}'")
         response = requests.post(config.URL, files=files)
         return response
 

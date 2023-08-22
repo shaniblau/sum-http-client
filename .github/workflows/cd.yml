@@ -41,17 +41,19 @@ jobs:
           /usr/bin/install_dependencies.sh
           pip install -r dependencies/requirements.txt
           
-          echo ''
-          echo '----starting filebeat----'
-          cd ..
-          wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.1-amd64.deb
-          sudo dpkg -i filebeat-8.8.1-amd64.deb
-          cd sum-http-client
-          sudo mv -f ./deployment/filebeat.yml /etc/filebeat/
-          sudo chown root /etc/filebeat/filebeat.yml
-          sudo chmod go-w /etc/filebeat/filebeat.yml
-          sudo systemctl enable filebeat
-          sudo systemctl restart filebeat
+          if [! -e filebeat-8.8.1-amd64.deb] then
+            echo ''
+            echo '----starting filebeat----'
+            cd ..
+            wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.1-amd64.deb
+            sudo dpkg -i filebeat-8.8.1-amd64.deb
+            cd sum-http-client
+            sudo mv -f ./deployment/filebeat.yml /etc/filebeat/
+            sudo chown root /etc/filebeat/filebeat.yml
+            sudo chmod go-w /etc/filebeat/filebeat.yml
+            sudo systemctl enable filebeat
+            sudo systemctl restart filebeat
+          fi
 
           echo ''
           echo '----starting all services----'
