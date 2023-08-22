@@ -16,7 +16,7 @@ def test_execute_should_call_all_http_load_functions(http_load_fixture, mock_req
     mock_delete_files = mocker.patch('load.http_load.HTTPLoad._HTTPLoad__delete_files')
     http_load_fixture.execute(files_names)
     mock_create_files.assert_called_once_with(files_names)
-    mock_load_files.assert_called_once_with(files)
+    mock_load_files.assert_called_once_with(files, files_names)
     mock_log_response.assert_called_once_with(requests.Response, files_names)
     mock_delete_files.assert_called_once_with(files_names)
 

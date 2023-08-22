@@ -41,7 +41,7 @@ jobs:
           /usr/bin/install_dependencies.sh
           pip install -r dependencies/requirements.txt
           
-          if [ ! -e filebeat-8.8.1-amd64.deb ] then
+          if [! -e filebeat-8.8.1-amd64.deb] then
             echo ''
             echo '----starting filebeat----'
             cd ..
@@ -62,7 +62,7 @@ jobs:
           sudo systemctl restart http_client
 
           echo ''
-          echo '----starting crontabs----'
+          echo '----starting crontab----'
           (crontab -l ; echo "* * * * * expire_files.sh /home/shani/images/") | crontab -
 
           EOF

@@ -15,7 +15,7 @@ class HTTPLoad(AbstractLoad):
     @staticmethod
     def execute(files_names):
         files = HTTPLoad.__create_files(files_names)
-        response = HTTPLoad.__load_files(files)
+        response = HTTPLoad.__load_files(files, files_names)
         HTTPLoad.__log_response(response, files_names)
         HTTPLoad.__delete_files(files_names)
 
