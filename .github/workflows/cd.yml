@@ -47,7 +47,7 @@ jobs:
             cd ..
             wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.1-amd64.deb
             sudo dpkg -i filebeat-8.8.1-amd64.deb
-            cd sum-http-client
+            cd sum-http-server
             sudo mv -f ./deployment/filebeat.yml /etc/filebeat/
             sudo chown root /etc/filebeat/filebeat.yml
             sudo chmod go-w /etc/filebeat/filebeat.yml
