@@ -1,4 +1,4 @@
-name: new-machine-cd
+name: install_app
 
 on: workflow_dispatch
 
