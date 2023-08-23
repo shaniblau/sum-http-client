@@ -32,7 +32,8 @@ def test_handle_half_2_identical_files_names(app_fixture, mocker, caplog):
     error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.WARNING]
     assert expected == error_messages[0]
     assert len(error_messages) == 1
-    mock_load.assert_called_twice_with('file_a.txt', 'file')
+    assert mock_load.call_count == 2
+    mock_load.assert_called_with('file_a.txt', 'file')
 
 
 # def test_handle_half_new_file_should_call_redis_load(app_fixture, mocker):
