@@ -32,6 +32,7 @@ def extract_half_file_name_(file_name):
 
 
 def handle_half(file_name, whole_file_name):
+    Redis.load(file_name, whole_file_name)
     if Redis.check_existence(whole_file_name):
         first_half = Redis.extract(whole_file_name)
         second_half = file_name
@@ -40,5 +41,3 @@ def handle_half(file_name, whole_file_name):
         else:
             error_logger.warning(f'the file {file_name} has been sent twice')
             Redis.load(file_name, whole_file_name)
-    else:
-        Redis.load(file_name, whole_file_name)

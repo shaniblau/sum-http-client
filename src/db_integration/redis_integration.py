@@ -13,11 +13,10 @@ class Redis(AbstractDB):
 
     @staticmethod
     def load(file_name, whole_file_name):
-        redis_client.set(whole_file_name, file_name)
+        redis_client.setnx(whole_file_name, file_name)
         redis_client.expire(whole_file_name, config.DEL_TIME)
 
     @staticmethod
     def extract(whole_file_name):
-        first_half = redis_client.get(whole_file_name)
-        redis_client.delete(whole_file_name)
+        first_half = redis_client.getdel(whole_file_name)
         return first_half
