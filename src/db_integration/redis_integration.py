@@ -9,7 +9,8 @@ redis_client = RedisClient(host=config.REDIS_HOST, port=config.REDIS_PORT, decod
 class Redis(AbstractDB):
     @staticmethod
     def check_existence(whole_file_name):
-        return redis_client.exists(whole_file_name)
+        with redis_client.lock('redis_lock') as lock:
+            return redis_client.exists(whole_file_name)
 
     @staticmethod
     def load(file_name, whole_file_name):
