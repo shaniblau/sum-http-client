@@ -50,5 +50,5 @@ def test_handle_half_existing_file_should_call_http_load_and_execute(app_fixture
     mock_load = mocker.patch('app.Redis.load')
     mock_execute = mocker.patch('app.HTTPLoad.execute')
     app_fixture.handle_half('file_a.txt', 'file')
-    mock_load.assert_called_once_with('file_a', 'file')
+    mock_load.assert_called_once_with('file_a.txt', 'file')
     mock_execute.assert_called_once_with(['file_b', 'file_a.txt'])
