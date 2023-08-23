@@ -19,5 +19,6 @@ class Redis(AbstractDB):
 
     @staticmethod
     def extract(whole_file_name):
-        first_half = redis_client.getdel(whole_file_name)
+        first_half = redis_client.get(whole_file_name)
+        redis_client.delete(whole_file_name)
         return first_half
