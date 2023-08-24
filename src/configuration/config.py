@@ -1,4 +1,4 @@
-URL = "http://20.16.214.172:8000/uploadfile"
+URL = "http://20.16.208.54:80/uploadfile"
 IMAGES_DIR_PATH = "/home/shani/imgs/"
 REDIS_HOST = "localhost"
 REDIS_PORT = "6379"
