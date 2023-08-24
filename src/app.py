@@ -44,4 +44,4 @@ def handle_second_half(whole_file_name, file_name):
         HTTPLoad.execute([first_half, second_half])
     else:
         error_logger.warning(f'the file {file_name} has been sent twice')
-        Redis.load(file_name, whole_file_name)
+        handle_half(file_name, whole_file_name)
