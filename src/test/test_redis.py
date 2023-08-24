@@ -2,7 +2,7 @@ from help_funcs import redis_cleanup
 
 
 def test_load_first_half_should_return_1_and_call_expire(redis_fixture, redis_client_fixture, mocker):
-    mock_expire = mocker.patch('redis.Redis.redis_client.expire')
+    mock_expire = mocker.patch('db_integration.Redis.redis_client.expire')
     expected = 1
     result = redis_fixture.load('file_a', 'file')
     redis_cleanup(redis_client_fixture, 'file.jpg')
@@ -11,7 +11,7 @@ def test_load_first_half_should_return_1_and_call_expire(redis_fixture, redis_cl
 
 
 def test_load_second_half_should_return_0_and_not_call_expire(redis_fixture, redis_client_fixture, mocker):
-    mock_expire = mocker.patch('redis.Redis.redis_client.expire')
+    mock_expire = mocker.patch('db_integration.Redis.redis_client.expire')
     expected = 0
     redis_fixture.load('file_b.jpg', 'file')
     result = redis_fixture.load('file_a', 'file')
