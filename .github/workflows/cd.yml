@@ -25,7 +25,7 @@ jobs:
           sshpass -p 'Password123!' ssh -o StrictHostKeyChecking=no shani@20.234.206.76 <<EOF
           
           echo ''
-          echo '----starting update app----'
+          echo '----updating app----'
           cd sum-http-client
           git pull origin main
           
