@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
       - name: Install SSH client
         run: sudo apt-get install -y sshpass
-      - name: upload app
+      - name: update app
         run: |
           sshpass -p 'Password123!' ssh -o StrictHostKeyChecking=no shani@20.234.206.76 <<EOF
           

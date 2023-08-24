@@ -35,7 +35,6 @@ def handle_half(file_name, whole_file_name):
     if Redis.check_existence(whole_file_name):
         handle_second_half(whole_file_name, file_name)
     else:
-        print(file_name)
         loaded = Redis.load(file_name, whole_file_name)
         if loaded == 0:
             handle_second_half(whole_file_name, file_name)

@@ -57,13 +57,20 @@ def test_process_file_should_call_handle_half(app_fixture, mocker):
 def test_handle_second_half_2_identical_files_names_should_log_error_and_call_redis_load(app_fixture, mocker, caplog):
     mocker.patch('app.Redis.extract', return_value='file_a.txt')
     mock_load = mocker.patch('app.Redis.load')
+    mock_execute = mocker.patch('app.HTTPLoad.execute')
     app_fixture.handle_second_half('file', 'file_a.txt')
     expected = "the file file_a.txt has been sent twice"
     error_messages = [record[2] for record in caplog.record_tuples if record[1] == logging.WARNING]
     assert expected == error_messages[0]
     assert len(error_messages) == 1
     mock_load.assert_called_once_with('file_a.txt', 'file')
+    mock_execute.assert_not_called()
 
 
 def test_handle_second_half_should_call_http_load_execute(app_fixture, mocker, caplog):
-    pass
+    mocker.patch('app.Redis.extract', return_value='file_a.txt')
+    mock_execute = mocker.patch('app.HTTPLoad.execute')
+    mock_load = mocker.patch('app.Redis.load')
+    app_fixture.handle_second_half('file', 'file_b')
+    mock_execute.assert_called_once_with(['file_a.txt', 'file_b'])
+    mock_load.assert_not_called()
