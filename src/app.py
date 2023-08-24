@@ -7,7 +7,7 @@ from db_integration import Redis
 from set_logger import extendable_logger
 
 date = datetime.now().strftime("%d_%m_%Y")
-arrived_logger = extendable_logger('arrived',f'{config.LOGS_DIR}/files-arrived/{date}.log', log.INFO)
+arrived_logger = extendable_logger('arrived', f'{config.LOGS_DIR}/files-arrived/{date}.log', log.INFO)
 
 
 def process_file(file_path):
@@ -32,15 +32,20 @@ def extract_half_file_name_(file_name):
 
 
 def handle_half(file_name, whole_file_name):
-    if not Redis.check_existence(whole_file_name):
-        print(file_name)
-        Redis.load(file_name, whole_file_name)
+    if Redis.check_existence(whole_file_name):
+        handle_second_half(whole_file_name, file_name)
     else:
-        first_half = Redis.extract(whole_file_name)
-        second_half = file_name
-        if second_half != first_half:
-            HTTPLoad.execute([first_half, second_half])
-        else:
-            error_logger.warning(f'the file {file_name} has been sent twice')
-            Redis.load(file_name, whole_file_name)
+        print(file_name)
+        loaded = Redis.load(file_name, whole_file_name)
+        if loaded == 0:
+            handle_second_half(whole_file_name, file_name)
 
+
+def handle_second_half(whole_file_name, file_name):
+    first_half = Redis.extract(whole_file_name)
+    second_half = file_name
+    if second_half != first_half:
+        HTTPLoad.execute([first_half, second_half])
+    else:
+        error_logger.warning(f'the file {file_name} has been sent twice')
+        Redis.load(file_name, whole_file_name)
