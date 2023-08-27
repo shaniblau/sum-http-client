@@ -1,7 +1,8 @@
 import os
-from multiprocessing import Pool
 import time
-from watchdog.events import FileClosedEvent, FileSystemEventHandler
+
+from multiprocessing import Pool
+from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from app import process_file
@@ -34,8 +35,7 @@ class Handler(FileSystemEventHandler):
 def handle_existing_files():
     for file in os.listdir(config.IMAGES_DIR_PATH):
         file_path = os.path.join(config.IMAGES_DIR_PATH, file)
-        event = FileClosedEvent(file_path)
-        pool.apply_async(process_file, (event.src_path,))
+        pool.apply_async(process_file, (file_path))
 
 
 if __name__ == '__main__':

@@ -1,16 +1,3 @@
-from queue import Queue
-
-from watchdog.events import FileClosedEvent
-
-
-def create_queue():
-    with open('./file_c', 'wb') as file:
-        file.write(b'a')
-    q = Queue()
-    q.put(FileClosedEvent('./file1_c'))
-    return q
-
-
 def create_files():
     with open('./file_a', 'wb') as file:
         file.write(b'a')

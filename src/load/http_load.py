@@ -2,12 +2,13 @@ import logging as log
 import os
 from datetime import datetime
 import requests
+
 from configuration import config
 from .abstract_load import AbstractLoad
 from set_logger import extendable_logger
 
-date = datetime.now().strftime("%d_%m_%Y")
-sent_logger = extendable_logger('sent', f'{config.LOGS_DIR}/files-sent/{date}.log', log.INFO)
+current_date = datetime.now().strftime("%d_%m_%Y")
+sent_logger = extendable_logger('sent', f'{config.LOGS_DIR}/files-sent/{current_date}.log', log.INFO)
 error_logger = extendable_logger('errors', f'{config.LOGS_DIR}/errors.log', log.WARNING)
 
 
@@ -46,4 +47,3 @@ class HTTPLoad(AbstractLoad):
         for name in files_names:
             file_path = os.path.join(config.IMAGES_DIR_PATH, name)
             os.remove(file_path)
-
