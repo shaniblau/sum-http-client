@@ -41,7 +41,7 @@ def test_handle_half_second_half_should_call_load_and_handle_second_half(app_fix
 
 def test_handle_second_half_2_identical_files_names_should_log_error_and_call_handle_file(app_fixture, mocker, caplog):
     mocker.patch('app.Redis.extract', return_value='file_a.txt')
-    mock_handle_file = mocker.patch('app.handle_file')
+    mock_handle_file = mocker.patch('app.handle_half')
     mock_execute = mocker.patch('app.HTTPLoad.execute')
     app_fixture.handle_second_half('file', 'file_a.txt')
     expected_error = "the file file_a.txt has been sent twice"
